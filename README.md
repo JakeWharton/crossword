@@ -28,8 +28,8 @@ For example, rendering a red `X` at (0,0) and a blue `O` at (0, 2) means writing
 canvas.write(0, 0, "\u001B[31mX\u001B[0m")
 canvas.write(0, 2, "\u001B[34mO\u001B[0m")
 ```
-<pre>
-<span style="color:red">X</span> <span style="color:blue">0</span>                                     
+```
+X O                                     
                     Such canvas         
                                         
                                         
@@ -37,7 +37,9 @@ canvas.write(0, 2, "\u001B[34mO\u001B[0m")
                                         
                               Very 2D   
                                         
-</pre>
+```
+
+_(Note: GitHub/markdown do not allow coloring text so use your imagination)_
 
 If `TextCanvas` was a naive 2D `char[]` the `O` would have overwritten almost all of the `X`'s ANSI
 escape sequence.
