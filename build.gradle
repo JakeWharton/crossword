@@ -6,6 +6,7 @@ buildscript {
     classpath 'org.jlleitschuh.gradle:ktlint-gradle:9.1.0'
     classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.10.0'
     classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.0'
+    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
   }
 
   repositories {
@@ -15,17 +16,16 @@ buildscript {
 }
 
 apply plugin: 'org.jetbrains.kotlin.jvm'
+apply plugin: 'com.vanniktech.maven.publish'
 
 dependencies {
   testImplementation 'junit:junit:4.13'
   testImplementation 'com.google.truth:truth:1.0.1'
 }
 
-group('com.jakewharton.crossword')
-version('0.1.0-SNAPSHOT')
-
 repositories {
   mavenCentral()
+  jcenter() // For dokka, added by gradle-maven-publish
 }
 
 apply plugin: 'org.jlleitschuh.gradle.ktlint'
