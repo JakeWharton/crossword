@@ -3,10 +3,10 @@
 A 2D canvas for rendering text, usually for console applications.
 
 ```kotlin
-val canvas = TextCanvas.sized(40, 8)
+val canvas = TextCanvas(40, 8)
 canvas.write(1, 20, "Such canvas")
 canvas.write(6, 30, "Very 2D")
-canvas.write(4, 7, "Much monnospace")
+canvas.write(4, 7, "Much monospace")
 println(canvas)
 ```
 ```
@@ -14,16 +14,63 @@ println(canvas)
                     Such canvas         
                                         
                                         
-       Much monnospace                  
+       Much monospace                   
                                         
                               Very 2D   
                                         
 ```
 
+Not very impressive. However, `TextCanvas` automatically handles multi-`char` codepoints and ANSI
+control sequences.
+
+For example, rendering a red `X` at (0,0) and a blue `O` at (0, 2) means writing 10 characters each: 
+```kotlin
+canvas.write(0, 0, "\u001B[31mX\u001B[0m")
+canvas.write(0, 2, "\u001B[34mO\u001B[0m")
+```
+<pre>
+<span style="color:red">X</span> <span style="color:blue">0</span>                                     
+                    Such canvas         
+                                        
+                                        
+       Much monospace                   
+                                        
+                              Very 2D   
+                                        
+</pre>
+
+If `TextCanvas` was a naive 2D `char[]` the `O` would have overwritten almost all of the `X`'s ANSI
+escape sequence.
+
 
 ## Download
 
-Soon.
+```groovy
+repositories {
+  mavenCentral()
+}
+dependencies {
+  implementation 'com.jakewharton.crossword:crossword:0.1.0'
+}
+```
+
+<details>
+<summary>Snapshots of the development version are available in Sonatype's snapshots repository.</summary>
+<p>
+
+```groovy
+repositories {
+  maven {
+    url 'https://oss.sonatype.org/content/repositories/snapshots/'
+  }
+}
+dependencies {
+  implementation 'com.jakewharton.crossword:crossword:0.2.0-SNAPSHOT'
+}
+```
+
+</p>
+</details>
 
 
 # License

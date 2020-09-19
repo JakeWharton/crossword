@@ -58,7 +58,7 @@ interface TextCanvas {
   companion object {
     @JvmStatic
     @JvmName("ofSize")
-    fun sized(width: Int, height: Int): TextCanvas {
+    operator fun invoke(width: Int, height: Int): TextCanvas {
       return TextSurface(width, height)
     }
   }
