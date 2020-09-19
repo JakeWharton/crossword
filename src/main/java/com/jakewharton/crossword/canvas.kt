@@ -1,6 +1,6 @@
-package com.jakewharton.picnic
+package com.jakewharton.crossword
 
-internal class TextSurface(
+private class TextSurface(
   override val width: Int,
   override val height: Int,
 ) : TextCanvas {
@@ -49,9 +49,18 @@ interface TextCanvas {
   fun write(row: Int, column: Int, char: Char)
   fun write(row: Int, column: Int, string: String)
 
-  @JvmDefault
-  fun clip(left: Int, right: Int, top: Int, bottom: Int): TextCanvas {
+  fun clip(left: Int, top: Int, right: Int, bottom: Int): TextCanvas {
     return ClippedTextCanvas(this, left, right, top, bottom)
+  }
+
+  override fun toString(): String
+
+  companion object {
+    @JvmStatic
+    @JvmName("ofSize")
+    fun sized(width: Int, height: Int): TextCanvas {
+      return TextSurface(width, height)
+    }
   }
 }
 
@@ -71,5 +80,9 @@ private class ClippedTextCanvas(
 
   override fun write(row: Int, column: Int, string: String) {
     canvas.write(top + row, left + column, string)
+  }
+
+  override fun toString(): String {
+    throw UnsupportedOperationException("Rendering a clipped canvas is not supported")
   }
 }

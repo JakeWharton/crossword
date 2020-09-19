@@ -1,4 +1,4 @@
-package com.jakewharton.picnic
+package com.jakewharton.crossword
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

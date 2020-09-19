@@ -1,0 +1,63 @@
+import org.gradle.internal.jvm.Jvm
+
+buildscript {
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
+    classpath 'org.jlleitschuh.gradle:ktlint-gradle:9.1.0'
+    classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.10.0'
+    classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.0'
+  }
+
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+  }
+}
+
+apply plugin: 'org.jetbrains.kotlin.jvm'
+
+dependencies {
+  testImplementation 'junit:junit:4.13'
+  testImplementation 'com.google.truth:truth:1.0.1'
+}
+
+group('com.jakewharton.crossword')
+version('0.1.0-SNAPSHOT')
+
+repositories {
+  mavenCentral()
+}
+
+apply plugin: 'org.jlleitschuh.gradle.ktlint'
+ktlint {
+  version = '0.38.1'
+  disabledRules = [
+      'filename',
+  ]
+}
+
+plugins.withId('org.jetbrains.kotlin.jvm') {
+  compileKotlin {
+    kotlinOptions {
+      jvmTarget = "1.8"
+      freeCompilerArgs = [
+          '-progressive',
+          '-Xjvm-default=all',
+      ]
+    }
+  }
+}
+
+plugins.withId('java-library') {
+  // Animal Sniffer only works on JDK 11 or older currently.
+  if (!Jvm.current().javaVersion.isJava12Compatible()) {
+    project.apply plugin: 'ru.vyarus.animalsniffer'
+    animalsniffer {
+      sourceSets = [sourceSets.main] // Only check main sources, ignore test code.
+    }
+    dependencies {
+      signature 'org.codehaus.mojo.signature:java18:1.0@signature'
+      signature 'net.sf.androidscents.signature:android-api-level-21:5.0.1_r2@signature'
+    }
+  }
+}
