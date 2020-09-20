@@ -46,7 +46,7 @@ plugins.withId('org.jetbrains.kotlin.jvm') {
   compileKotlin {
     kotlinOptions {
       jvmTarget = "1.8"
-      freeCompilerArgs = [
+      freeCompilerArgs += [
           '-progressive',
           '-Xjvm-default=all',
       ]
