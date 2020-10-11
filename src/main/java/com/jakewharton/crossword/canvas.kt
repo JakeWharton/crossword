@@ -29,6 +29,9 @@ private class TextSurface(
   }
 
   override fun toString(): String {
+    if (height == 0) {
+      return ""
+    }
     val rowCharacterCount = rowBuilders.sumOf { it.length }
     val newLineCount = height - 1
     return buildString(rowCharacterCount + newLineCount) {
