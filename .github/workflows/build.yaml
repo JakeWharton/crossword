@@ -31,7 +31,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body: ${{ steps.release_notes.outputs.release_notes }}
-          files: build/dependency-tree-diff.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

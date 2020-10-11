@@ -52,7 +52,7 @@ repositories {
   mavenCentral()
 }
 dependencies {
-  implementation 'com.jakewharton.crossword:crossword:0.1.1'
+  implementation 'com.jakewharton.crossword:crossword:0.1.2'
 }
 ```
 

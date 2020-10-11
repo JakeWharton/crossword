@@ -3,6 +3,13 @@
 ## [Unreleased]
 
 
+## [0.1.2] - 2020-10-10
+
+### Fixed
+
+ * Support a zero-sized `TextCanvas`.
+
+
 ## [0.1.1] - 2020-09-19
 
 ### Fixed
@@ -16,6 +23,7 @@
 Initial release
 
 
-[Unreleased]: https://github.com/JakeWharton/crossword/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/JakeWharton/crossword/compare/0.1.2...HEAD
+[0.1.2]: https://github.com/JakeWharton/crossword/releases/tag/0.1.2
 [0.1.1]: https://github.com/JakeWharton/crossword/releases/tag/0.1.1
 [0.1.0]: https://github.com/JakeWharton/crossword/releases/tag/0.1.0
