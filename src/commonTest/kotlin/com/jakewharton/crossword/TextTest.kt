@@ -4,25 +4,28 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TextTest {
-  @Test fun visualIndexAscii() {
+  @Test fun visualIndex() {
     assertEquals(0, "AAAAA".visualIndex(0))
     assertEquals(1, "AAAAA".visualIndex(1))
     assertEquals(2, "AAAAA".visualIndex(2))
     assertEquals(3, "AAAAA".visualIndex(3))
     assertEquals(4, "AAAAA".visualIndex(4))
-  }
 
-  @Test fun visualIndexUnicode() {
-    // 1 UTF-8 bytes.
     assertEquals(1, "\u0031a".visualIndex(1))
-    // 2 UTF-8 bytes.
     assertEquals(1, "\u00A3a".visualIndex(1))
-    // 3 UTF-8 bytes.
     assertEquals(1, "\u20ACa".visualIndex(1))
-    // 3 UTF-8 bytes, full-width.
     assertEquals(1, "\u5317a".visualIndex(1))
-    // 4 UTF-8 bytes (2 * UTF-16), full-width.
+
+    // High, low, ASCII
     assertEquals(2, "\uD83D\uDE03a".visualIndex(1))
+
+    // High, high, low, low --> ?😃?
+    assertEquals(1, "\uD83D\uD83D\uDE03\uDE03".visualIndex(1))
+    assertEquals(3, "\uD83D\uD83D\uDE03\uDE03".visualIndex(2))
+    // Low, low, high, high --> ????
+    assertEquals(1, "\uDE03\uDE03\uD83D\uD83D".visualIndex(1))
+    assertEquals(2, "\uDE03\uDE03\uD83D\uD83D".visualIndex(2))
+    assertEquals(3, "\uDE03\uDE03\uD83D\uD83D".visualIndex(3))
   }
 
   @Test fun visualIndexJumpsAnsiEscapes() {
@@ -53,6 +56,19 @@ class TextTest {
     assertEquals(1, "A".visualCodePointCount)
     assertEquals(2, "AA".visualCodePointCount)
     assertEquals(3, "AAA".visualCodePointCount)
+
+    assertEquals(2, "\u0031a".visualCodePointCount)
+    assertEquals(2, "\u00A3a".visualCodePointCount)
+    assertEquals(2, "\u20ACa".visualCodePointCount)
+    assertEquals(2, "\u5317a".visualCodePointCount)
+
+    // High, low, ASCII
+    assertEquals(2, "\uD83D\uDE03a".visualCodePointCount)
+
+    // High, high, low, low --> ?😃?
+    assertEquals(3, "\uD83D\uD83D\uDE03\uDE03".visualCodePointCount)
+    // Low, low, high, high --> ????
+    assertEquals(4, "\uDE03\uDE03\uD83D\uD83D".visualCodePointCount)
   }
 
   @Test fun visualCodePointCountAnsiEscapes() {
@@ -60,18 +76,5 @@ class TextTest {
     assertEquals(3, "A\u001B[31;1;4mA\u001B[0mA".visualCodePointCount)
 
     assertEquals(3, "\u001B[31;1;4mA\u001B[0m\u001B[31;1;4mA\u001B[0mA".visualCodePointCount)
-  }
-
-  @Test fun visualCodePointCountUnicode() {
-    // 1 UTF-8 bytes.
-    assertEquals(2, "\u0031a".visualCodePointCount)
-    // 2 UTF-8 bytes.
-    assertEquals(2, "\u00A3a".visualCodePointCount)
-    // 3 UTF-8 bytes.
-    assertEquals(2, "\u20ACa".visualCodePointCount)
-    // 3 UTF-8 bytes, full-width.
-    assertEquals(2, "\u5317a".visualCodePointCount)
-    // 4 UTF-8 bytes (2 * UTF-16), full-width.
-    assertEquals(2, "\uD83D\uDE03a".visualCodePointCount)
   }
 }
