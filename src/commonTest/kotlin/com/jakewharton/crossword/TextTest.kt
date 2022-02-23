@@ -22,7 +22,7 @@ class TextTest {
     // 3 UTF-8 bytes, full-width.
     assertEquals(1, "\u5317a".visualIndex(1))
     // 4 UTF-8 bytes (2 * UTF-16), full-width.
-    assertEquals(2, (String(Character.toChars(0x1F603)) + "a").visualIndex(1))
+    assertEquals(2, "\uD83D\uDE03a".visualIndex(1))
   }
 
   @Test fun visualIndexJumpsAnsiEscapes() {
@@ -72,6 +72,6 @@ class TextTest {
     // 3 UTF-8 bytes, full-width.
     assertEquals(2, "\u5317a".visualCodePointCount)
     // 4 UTF-8 bytes (2 * UTF-16), full-width.
-    assertEquals(2, (String(Character.toChars(0x1F603)) + "a").visualCodePointCount)
+    assertEquals(2, "\uD83D\uDE03a".visualCodePointCount)
   }
 }

@@ -1,5 +1,8 @@
 package com.jakewharton.crossword
 
+import kotlin.jvm.JvmName
+import kotlin.jvm.JvmStatic
+
 private class TextSurface(
   override val width: Int,
   override val height: Int,
@@ -15,7 +18,7 @@ private class TextSurface(
   override fun write(row: Int, column: Int, char: Char) {
     val rowBuilder = rowBuilders[row]
     val writeIndex = rowBuilder.visualIndex(column)
-    rowBuilder.setCharAt(writeIndex, char)
+    rowBuilder[writeIndex] = char
   }
 
   override fun write(row: Int, column: Int, string: String) {
@@ -24,7 +27,7 @@ private class TextSurface(
       val writeStartIndex = rowBuilder.visualIndex(column)
       val writeEndIndex = rowBuilder.visualIndex(column + line.visualCodePointCount)
 
-      rowBuilder.replace(writeStartIndex, writeEndIndex, line)
+      rowBuilder.replaceRange(writeStartIndex, writeEndIndex, line)
     }
   }
 
