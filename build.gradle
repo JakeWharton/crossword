@@ -2,11 +2,11 @@ import org.gradle.internal.jvm.Jvm
 
 buildscript {
   dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
     classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.3.0'
     classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.6.10'
     classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.0'
-    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.14.2'
+    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.18.0'
   }
 
   repositories {
@@ -15,17 +15,21 @@ buildscript {
   }
 }
 
-apply plugin: 'java-library'
-apply plugin: 'org.jetbrains.kotlin.jvm'
+apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: 'com.vanniktech.maven.publish'
 
-java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
-}
+kotlin {
+  jvm {
+    withJava() // Required for Animal Sniffer to work.
+  }
 
-dependencies {
-  testImplementation 'org.jetbrains.kotlin:kotlin-test'
+  sourceSets {
+    commonTest {
+      dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-test'
+      }
+    }
+  }
 }
 
 repositories {
@@ -42,28 +46,25 @@ spotless {
   }
 }
 
-plugins.withId('org.jetbrains.kotlin.jvm') {
-  compileKotlin {
-    kotlinOptions {
-      jvmTarget = "1.8"
-      freeCompilerArgs += [
-          '-progressive',
-          '-Xjvm-default=all',
-      ]
-    }
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+  kotlinOptions {
+    jvmTarget = "1.8"
+    freeCompilerArgs += [
+        '-progressive',
+        '-Xjvm-default=all',
+    ]
   }
 }
 
-plugins.withId('java-library') {
-  // Animal Sniffer only works on JDK 11 or older currently.
-  if (!Jvm.current().javaVersion.isJava12Compatible()) {
-    project.apply plugin: 'ru.vyarus.animalsniffer'
-    animalsniffer {
-      sourceSets = [sourceSets.main] // Only check main sources, ignore test code.
-    }
-    dependencies {
-      signature 'org.codehaus.mojo.signature:java18:1.0@signature'
-      signature 'net.sf.androidscents.signature:android-api-level-21:5.0.1_r2@signature'
-    }
+// Animal Sniffer only works on JDK 11 or older currently.
+if (!Jvm.current().javaVersion.isJava12Compatible()) {
+  apply plugin: 'ru.vyarus.animalsniffer'
+
+  animalsniffer {
+    sourceSets = [sourceSets.main] // Only check main sources, ignore test code.
+  }
+  dependencies {
+    signature 'org.codehaus.mojo.signature:java18:1.0@signature'
+    signature 'net.sf.androidscents.signature:android-api-level-21:5.0.1_r2@signature'
   }
 }

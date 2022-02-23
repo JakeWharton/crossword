@@ -8,7 +8,7 @@ fun CharSequence.visualIndex(index: Int): Int {
   while (true) {
     val match = ansiColorEscape.find(this, startIndex = currentIndex) ?: break
 
-    val jump = Character.codePointCount(this, currentIndex, match.range.first)
+    val jump = codePointCount(currentIndex, match.range.first)
     if (jump > remaining) break
 
     remaining -= jump
@@ -16,8 +16,8 @@ fun CharSequence.visualIndex(index: Int): Int {
   }
 
   while (remaining > 0) {
-    val codePoint = Character.codePointAt(this, currentIndex)
-    currentIndex += Character.charCount(codePoint)
+    val codePoint = codePointAt(currentIndex)
+    currentIndex += codePointCharCount(codePoint)
     remaining--
   }
 
@@ -28,16 +28,16 @@ val CharSequence.visualCodePointCount: Int get() {
   // Fast path: no escapes.
   val firstEscape = indexOf('\u001B')
   if (firstEscape == -1) {
-    return Character.codePointCount(this, 0, length)
+    return codePointCount(0, length)
   }
 
   var currentIndex = firstEscape
-  var count = Character.codePointCount(this, 0, firstEscape)
+  var count = codePointCount(0, firstEscape)
   while (true) {
     val match = ansiColorEscape.find(this, startIndex = currentIndex) ?: break
-    count += Character.codePointCount(this, currentIndex, match.range.first)
+    count += codePointCount(currentIndex, match.range.first)
     currentIndex = match.range.last + 1
   }
-  count += Character.codePointCount(this, currentIndex, length)
+  count += codePointCount(currentIndex, length)
   return count
 }
