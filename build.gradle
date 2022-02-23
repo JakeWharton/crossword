@@ -19,6 +19,9 @@ apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: 'com.vanniktech.maven.publish'
 
 kotlin {
+  js {
+    nodejs()
+  }
   jvm {
     withJava() // Required for Animal Sniffer to work.
   }
