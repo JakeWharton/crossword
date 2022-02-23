@@ -25,7 +25,7 @@ private class TextSurface(
     string.split('\n').forEachIndexed { lineIndex, line ->
       val rowBuilder = rowBuilders[row + lineIndex]
       val writeStartIndex = rowBuilder.visualIndex(column)
-      val writeEndIndex = rowBuilder.visualIndex(column + line.visualCodePointCount)
+      val writeEndIndex = rowBuilder.visualIndex(column + line.visualWidth)
 
       rowBuilder.replaceRange(writeStartIndex, writeEndIndex, line)
     }

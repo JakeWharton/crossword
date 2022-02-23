@@ -52,29 +52,29 @@ class TextTest {
   }
 
   @Test fun visualCodePointCountAscii() {
-    assertEquals(0, "".visualCodePointCount)
-    assertEquals(1, "A".visualCodePointCount)
-    assertEquals(2, "AA".visualCodePointCount)
-    assertEquals(3, "AAA".visualCodePointCount)
+    assertEquals(0, "".visualWidth)
+    assertEquals(1, "A".visualWidth)
+    assertEquals(2, "AA".visualWidth)
+    assertEquals(3, "AAA".visualWidth)
 
-    assertEquals(2, "\u0031a".visualCodePointCount)
-    assertEquals(2, "\u00A3a".visualCodePointCount)
-    assertEquals(2, "\u20ACa".visualCodePointCount)
-    assertEquals(2, "\u5317a".visualCodePointCount)
+    assertEquals(2, "\u0031a".visualWidth)
+    assertEquals(2, "\u00A3a".visualWidth)
+    assertEquals(2, "\u20ACa".visualWidth)
+    assertEquals(2, "\u5317a".visualWidth)
 
     // High, low, ASCII
-    assertEquals(2, "\uD83D\uDE03a".visualCodePointCount)
+    assertEquals(2, "\uD83D\uDE03a".visualWidth)
 
     // High, high, low, low --> ?😃?
-    assertEquals(3, "\uD83D\uD83D\uDE03\uDE03".visualCodePointCount)
+    assertEquals(3, "\uD83D\uD83D\uDE03\uDE03".visualWidth)
     // Low, low, high, high --> ????
-    assertEquals(4, "\uDE03\uDE03\uD83D\uD83D".visualCodePointCount)
+    assertEquals(4, "\uDE03\uDE03\uD83D\uD83D".visualWidth)
   }
 
   @Test fun visualCodePointCountAnsiEscapes() {
-    assertEquals(1, "\u001B[31;1;4mA\u001B[0m".visualCodePointCount)
-    assertEquals(3, "A\u001B[31;1;4mA\u001B[0mA".visualCodePointCount)
+    assertEquals(1, "\u001B[31;1;4mA\u001B[0m".visualWidth)
+    assertEquals(3, "A\u001B[31;1;4mA\u001B[0mA".visualWidth)
 
-    assertEquals(3, "\u001B[31;1;4mA\u001B[0m\u001B[31;1;4mA\u001B[0mA".visualCodePointCount)
+    assertEquals(3, "\u001B[31;1;4mA\u001B[0m\u001B[31;1;4mA\u001B[0mA".visualWidth)
   }
 }
