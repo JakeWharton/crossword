@@ -21,16 +21,18 @@ internal actual fun CharSequence.codePointAt(index: Int): Int {
   var i = 0
   var skip = index
   var code: Int
+  var isHighSurrogate: Boolean
   do {
     code = this[i++].code
-    if (code.isHighSurrogate()) {
+    isHighSurrogate = code.isHighSurrogate()
+    if (isHighSurrogate) {
       // TODO Should we validate next char is a low surrogate? What to do if not?
       i++
     }
   } while (skip-- != 0)
 
   // Note: 'i' is already pointing at next position from loop above.
-  if (code.isHighSurrogate() && i < length) {
+  if (isHighSurrogate && i < length) {
     code = (code shl 16) or this[i].code
   }
   return code
