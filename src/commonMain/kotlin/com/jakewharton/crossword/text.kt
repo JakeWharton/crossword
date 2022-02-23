@@ -1,5 +1,7 @@
 package com.jakewharton.crossword
 
+import kotlin.DeprecationLevel.ERROR
+
 private val ansiColorEscape = Regex("""\u001B\[\d+(;\d+)*m""")
 
 fun CharSequence.visualIndex(index: Int): Int {
@@ -24,7 +26,10 @@ fun CharSequence.visualIndex(index: Int): Int {
   return currentIndex
 }
 
-val CharSequence.visualCodePointCount: Int get() {
+@Deprecated("Renamed", ReplaceWith("this.visualWidth"), ERROR)
+val CharSequence.visualCodePointCount: Int get() = visualWidth
+
+val CharSequence.visualWidth: Int get() {
   // Fast path: no escapes.
   val firstEscape = indexOf('\u001B')
   if (firstEscape == -1) {
