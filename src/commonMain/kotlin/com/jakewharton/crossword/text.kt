@@ -18,14 +18,14 @@ fun CharSequence.visualIndex(index: Int): Int {
   }
 
   while (remaining > 0) {
-    val codePoint = codePointAt(currentIndex)
-    currentIndex += codePointCharCount(codePoint)
+    currentIndex += codePointCharCount(currentIndex)
     remaining--
   }
 
   return currentIndex
 }
 
+@Suppress("unused") // Delete after 0.2.0 is released.
 @Deprecated("Renamed", ReplaceWith("this.visualWidth"), ERROR)
 val CharSequence.visualCodePointCount: Int get() = visualWidth
 
@@ -45,4 +45,17 @@ val CharSequence.visualWidth: Int get() {
   }
   count += codePointCount(currentIndex, length)
   return count
+}
+
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun Int.isLowSurrogate(): Boolean = this in 0xDC00..0xDFFF
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun Int.isHighSurrogate(): Boolean = this in 0xD800..0xDBFF
+
+internal fun CharSequence.codePointCharCount(index: Int): Int {
+  val nextIndex = index + 1
+  if (this[index].isHighSurrogate() && nextIndex < length && this[nextIndex].isLowSurrogate()) {
+    return 2
+  }
+  return 1
 }
