@@ -2,11 +2,11 @@ import org.gradle.internal.jvm.Jvm
 
 buildscript {
   dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
-    classpath 'org.jlleitschuh.gradle:ktlint-gradle:9.1.0'
-    classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.10.0'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+    classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.3.0'
+    classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.6.10'
     classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.0'
-    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
+    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.14.2'
   }
 
   repositories {
@@ -25,21 +25,21 @@ java {
 }
 
 dependencies {
-  testImplementation 'junit:junit:4.13'
-  testImplementation 'com.google.truth:truth:1.0.1'
+  testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
 repositories {
   mavenCentral()
-  jcenter() // For dokka, added by gradle-maven-publish
 }
 
-apply plugin: 'org.jlleitschuh.gradle.ktlint'
-ktlint {
-  version = '0.38.1'
-  disabledRules = [
-      'filename',
-  ]
+apply plugin: 'com.diffplug.spotless'
+spotless {
+  kotlin {
+    ktlint('0.44.0').userData([
+      'indent_size': '2',
+      'continuation_indent_size': '2',
+    ])
+  }
 }
 
 plugins.withId('org.jetbrains.kotlin.jvm') {

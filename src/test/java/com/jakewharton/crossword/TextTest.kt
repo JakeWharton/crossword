@@ -1,7 +1,7 @@
 package com.jakewharton.crossword
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class TextTest {
   @Test fun visualIndexAscii() {
