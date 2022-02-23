@@ -29,8 +29,9 @@ internal actual fun CharSequence.codePointAt(index: Int): Int {
     }
   } while (skip-- != 0)
 
+  // Note: 'i' is already pointing at next position from loop above.
   if (code.isHighSurrogate() && i < length) {
-    code = (code shl 16) or this[i + 1].code
+    code = (code shl 16) or this[i].code
   }
   return code
 }

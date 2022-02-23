@@ -22,9 +22,27 @@ kotlin {
   js {
     nodejs()
   }
+
   jvm {
     withJava() // Required for Animal Sniffer to work.
   }
+
+  iosArm32()
+  iosArm64()
+  iosX64()
+  iosSimulatorArm64()
+  linuxX64()
+  macosX64()
+  macosArm64()
+  mingwX64()
+  tvosArm64()
+  tvosX64()
+  tvosSimulatorArm64()
+  watchosArm32()
+  watchosArm64()
+  watchosX86()
+  watchosX64()
+  watchosSimulatorArm64()
 
   sourceSets {
     commonTest {
@@ -32,6 +50,15 @@ kotlin {
         implementation 'org.jetbrains.kotlin:kotlin-test'
       }
     }
+    nonJvmMain {
+    }
+    jsMain {
+      dependsOn(nonJvmMain)
+    }
+  }
+
+  targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget) {
+    compilations.main.defaultSourceSet.dependsOn(sourceSets.nonJvmMain)
   }
 }
 
