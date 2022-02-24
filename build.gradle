@@ -50,15 +50,6 @@ kotlin {
         implementation 'org.jetbrains.kotlin:kotlin-test'
       }
     }
-    nonJvmMain {
-    }
-    jsMain {
-      dependsOn(nonJvmMain)
-    }
-  }
-
-  targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget) {
-    compilations.main.defaultSourceSet.dependsOn(sourceSets.nonJvmMain)
   }
 }
 

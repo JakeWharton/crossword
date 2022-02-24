@@ -2,27 +2,18 @@ package com.jakewharton.crossword
 
 import kotlin.DeprecationLevel.ERROR
 
-private val ansiColorEscape = Regex("""\u001B\[\d+(;\d+)*m""")
-
 fun CharSequence.visualIndex(index: Int): Int {
-  var currentIndex = 0
   var remaining = index
-  while (true) {
-    val match = ansiColorEscape.find(this, startIndex = currentIndex) ?: break
-
-    val jump = codePointCount(currentIndex, match.range.first)
-    if (jump > remaining) break
-
-    remaining -= jump
-    currentIndex = match.range.last + 1
-  }
-
-  while (remaining > 0) {
-    currentIndex += codePointCharCount(currentIndex)
+  forEachVisualCharacter {
+    if (remaining == 0) {
+      return it
+    }
     remaining--
   }
-
-  return currentIndex
+  if (remaining == 0) {
+    return length
+  }
+  throw IndexOutOfBoundsException()
 }
 
 @Suppress("unused") // Delete after 0.2.0 is released.
@@ -30,32 +21,62 @@ fun CharSequence.visualIndex(index: Int): Int {
 val CharSequence.visualCodePointCount: Int get() = visualWidth
 
 val CharSequence.visualWidth: Int get() {
-  // Fast path: no escapes.
-  val firstEscape = indexOf('\u001B')
-  if (firstEscape == -1) {
-    return codePointCount(0, length)
+  var count = 0
+  forEachVisualCharacter {
+    count++
   }
-
-  var currentIndex = firstEscape
-  var count = codePointCount(0, firstEscape)
-  while (true) {
-    val match = ansiColorEscape.find(this, startIndex = currentIndex) ?: break
-    count += codePointCount(currentIndex, match.range.first)
-    currentIndex = match.range.last + 1
-  }
-  count += codePointCount(currentIndex, length)
   return count
 }
 
-@Suppress("NOTHING_TO_INLINE")
-internal inline fun Int.isLowSurrogate(): Boolean = this in 0xDC00..0xDFFF
-@Suppress("NOTHING_TO_INLINE")
-internal inline fun Int.isHighSurrogate(): Boolean = this in 0xD800..0xDBFF
+private inline fun CharSequence.forEachVisualCharacter(block: (index: Int) -> Unit) {
+  // TODO Determine if it's better and/or faster to be comparing as chars or codes.
 
-internal fun CharSequence.codePointCharCount(index: Int): Int {
-  val nextIndex = index + 1
-  if (this[index].isHighSurrogate() && nextIndex < length && this[nextIndex].isLowSurrogate()) {
-    return 2
+  var i = 0
+  val length = length
+  outer@ while (i < length) {
+    val code = this[i].code
+
+    // Skip ANSI control sequence – they do not affect rendering position.
+    if (code == 0x1B) {
+      var state = 0
+      for (peek in i + 1 until length) {
+        val peeked = this[peek]
+        when (state) {
+          0 -> {
+            if (peeked != '[') {
+              break
+            }
+            state = 1
+          }
+          1 -> {
+            if (peeked !in '0'..'9') {
+              break
+            }
+            state = 2
+          }
+          2 -> {
+            if (peeked == ';') {
+              state = 1
+            } else if (peeked == 'm') {
+              // Sequence is complete! Bump pointer and start over in outer loop in case there are
+              // successive sequences.
+              i = peek + 1
+              continue@outer
+            } else if (peeked !in '0'..'9') {
+              break
+            }
+          }
+        }
+      }
+    }
+
+    block(i)
+
+    i++
+
+    // If code is a high surrogate followed by a low surrogate they will combine when rendering.
+    if (code in 0xD800..0xDBFF && i < length && this[i].code in 0xDC00..0xDFFF) {
+      i++
+    }
   }
-  return 1
 }
