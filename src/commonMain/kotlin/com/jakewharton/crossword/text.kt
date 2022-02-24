@@ -5,24 +5,17 @@ import kotlin.DeprecationLevel.ERROR
 private val ansiColorEscape = Regex("""\u001B\[\d+(;\d+)*m""")
 
 fun CharSequence.visualIndex(index: Int): Int {
-  var currentIndex = 0
   var remaining = index
-  while (true) {
-    val match = ansiColorEscape.find(this, startIndex = currentIndex) ?: break
-
-    val jump = codePointCount(currentIndex, match.range.first)
-    if (jump > remaining) break
-
-    remaining -= jump
-    currentIndex = match.range.last + 1
-  }
-
-  while (remaining > 0) {
-    currentIndex += codePointCharCount(currentIndex)
+  forEachVisualCharacter {
+    if (remaining == 0) {
+      return it
+    }
     remaining--
   }
-
-  return currentIndex
+  if (remaining == 0) {
+    return length
+  }
+  throw IndexOutOfBoundsException()
 }
 
 @Suppress("unused") // Delete after 0.2.0 is released.
@@ -30,32 +23,50 @@ fun CharSequence.visualIndex(index: Int): Int {
 val CharSequence.visualCodePointCount: Int get() = visualWidth
 
 val CharSequence.visualWidth: Int get() {
-  // Fast path: no escapes.
-  val firstEscape = indexOf('\u001B')
-  if (firstEscape == -1) {
-    return codePointCount(0, length)
+  var count = 0
+  forEachVisualCharacter {
+    count++
   }
-
-  var currentIndex = firstEscape
-  var count = codePointCount(0, firstEscape)
-  while (true) {
-    val match = ansiColorEscape.find(this, startIndex = currentIndex) ?: break
-    count += codePointCount(currentIndex, match.range.first)
-    currentIndex = match.range.last + 1
-  }
-  count += codePointCount(currentIndex, length)
   return count
 }
 
-@Suppress("NOTHING_TO_INLINE")
-internal inline fun Int.isLowSurrogate(): Boolean = this in 0xDC00..0xDFFF
-@Suppress("NOTHING_TO_INLINE")
-internal inline fun Int.isHighSurrogate(): Boolean = this in 0xD800..0xDBFF
+private inline fun CharSequence.forEachVisualCharacter(block: (index: Int) -> Unit) {
+  var index = 0
 
-internal fun CharSequence.codePointCharCount(index: Int): Int {
-  val nextIndex = index + 1
-  if (this[index].isHighSurrogate() && nextIndex < length && this[nextIndex].isLowSurrogate()) {
-    return 2
+  // These values will force a code path that searches for the first real match below.
+  var nextMatchStart = 0
+  var nextMatchEnd = -1
+
+  val length = length
+  while (index < length) {
+    if (index == nextMatchStart) {
+      // Jump over ANSI control sequence.
+      index = nextMatchEnd + 1
+
+      // Find the next ANSI control sequence, if any.
+      val match = ansiColorEscape.find(this, index)
+      if (match != null) {
+        nextMatchStart = match.range.first
+        nextMatchEnd = match.range.last
+      } else {
+        // No future matches. Ensure we never take this conditional again.
+        nextMatchStart = length
+      }
+
+      continue
+    }
+
+    block(index)
+
+    val code = this[index].code
+    index++
+    if (code.isHighSurrogate() && index < length && this[index].code.isLowSurrogate()) {
+      index++
+    }
   }
-  return 1
 }
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun Int.isLowSurrogate(): Boolean = this in 0xDC00..0xDFFF
+@Suppress("NOTHING_TO_INLINE")
+private inline fun Int.isHighSurrogate(): Boolean = this in 0xD800..0xDBFF
