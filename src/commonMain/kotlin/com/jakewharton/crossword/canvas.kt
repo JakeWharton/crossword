@@ -27,7 +27,7 @@ private class TextSurface(
       val writeStartIndex = rowBuilder.visualIndex(column)
       val writeEndIndex = rowBuilder.visualIndex(column + line.visualWidth)
 
-      rowBuilder.replaceRange(writeStartIndex, writeEndIndex, line)
+      rowBuilder.setRange(writeStartIndex, writeEndIndex, line)
     }
   }
 
