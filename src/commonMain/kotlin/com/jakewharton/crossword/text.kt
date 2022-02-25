@@ -53,6 +53,7 @@ private inline fun CharSequence.forEachVisualCharacter(block: (index: Int) -> Un
         nextMatchStart = length
       }
 
+      // Restart loop since there may be successive ANSI sequences.
       continue
     }
 
@@ -60,7 +61,14 @@ private inline fun CharSequence.forEachVisualCharacter(block: (index: Int) -> Un
 
     val code = this[index].code
     index++
+
+    // Check for a surrogate pair which render as a single visual glyph.
     if (code.isHighSurrogate() && index < length && this[index].code.isLowSurrogate()) {
+      index++
+    }
+
+    // Consume combining diacritics which render on the preceding code point.
+    while (index < length && this[index].code.isCombiningDiacritical()) {
       index++
     }
   }
@@ -70,3 +78,5 @@ private inline fun CharSequence.forEachVisualCharacter(block: (index: Int) -> Un
 private inline fun Int.isLowSurrogate(): Boolean = this in 0xDC00..0xDFFF
 @Suppress("NOTHING_TO_INLINE")
 private inline fun Int.isHighSurrogate(): Boolean = this in 0xD800..0xDBFF
+@Suppress("NOTHING_TO_INLINE")
+private inline fun Int.isCombiningDiacritical(): Boolean = this in 0x0300..0x036F

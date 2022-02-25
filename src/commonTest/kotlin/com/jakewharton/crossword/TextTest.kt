@@ -15,7 +15,9 @@ class TextTest {
     assertEquals(1, "\u00A3a".visualIndex(1))
     assertEquals(1, "\u20ACa".visualIndex(1))
     assertEquals(1, "\u5317a".visualIndex(1))
+  }
 
+  @Test fun visualIndexSurrogates() {
     // High, low, ASCII
     assertEquals(2, "\uD83D\uDE03a".visualIndex(1))
 
@@ -28,7 +30,16 @@ class TextTest {
     assertEquals(3, "\uDE03\uDE03\uD83D\uD83D".visualIndex(3))
   }
 
-  @Test fun visualIndexJumpsAnsiEscapes() {
+  @Test fun visualIndexCombiningDiacritics() {
+    assertEquals(3, "o\u032E\u0306".visualIndex(1))
+
+    // Leading diacritic will be displayed separately. That is, at least, unless there is a letter
+    // preceding it in the final output. But we cannot control that here.
+    assertEquals(1, "\u032Eo".visualIndex(1))
+    assertEquals(2, "\u032Eo".visualIndex(2))
+  }
+
+  @Test fun visualIndexAnsiEscapes() {
     val singleAnsiEscape = "AAA\u001B[31;1;4mAA"
     assertEquals(0, singleAnsiEscape.visualIndex(0))
     assertEquals(1, singleAnsiEscape.visualIndex(1))
@@ -51,7 +62,7 @@ class TextTest {
     assertEquals(13, dualAnsiEscapes.visualIndex(4))
   }
 
-  @Test fun visualCodePointCountAscii() {
+  @Test fun visualWidth() {
     assertEquals(0, "".visualWidth)
     assertEquals(1, "A".visualWidth)
     assertEquals(2, "AA".visualWidth)
@@ -61,7 +72,9 @@ class TextTest {
     assertEquals(2, "\u00A3a".visualWidth)
     assertEquals(2, "\u20ACa".visualWidth)
     assertEquals(2, "\u5317a".visualWidth)
+  }
 
+  @Test fun visualWidthSurrogates() {
     // High, low, ASCII
     assertEquals(2, "\uD83D\uDE03a".visualWidth)
 
@@ -71,7 +84,15 @@ class TextTest {
     assertEquals(4, "\uDE03\uDE03\uD83D\uD83D".visualWidth)
   }
 
-  @Test fun visualCodePointCountAnsiEscapes() {
+  @Test fun visualWidthCombiningDiacritics() {
+    assertEquals(1, "o\u032E\u0306".visualWidth)
+
+    // Leading diacritic will be displayed separately. That is, at least, unless there is a letter
+    // preceding it in the final output. But we cannot control that here.
+    assertEquals(2, "\u032Eo".visualWidth)
+  }
+
+  @Test fun visualWidthAnsiEscapes() {
     assertEquals(1, "\u001B[31;1;4mA\u001B[0m".visualWidth)
     assertEquals(3, "A\u001B[31;1;4mA\u001B[0mA".visualWidth)
 
