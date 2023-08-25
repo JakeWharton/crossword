@@ -2,9 +2,9 @@ import org.gradle.internal.jvm.Jvm
 
 buildscript {
   dependencies {
-    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
-    classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.3.0'
-    classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.6.10'
+    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10'
+    classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.20.0'
+    classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.8.20'
     classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.5.0'
     classpath 'com.vanniktech:gradle-maven-publish-plugin:0.18.0'
   }
@@ -60,21 +60,25 @@ repositories {
 apply plugin: 'com.diffplug.spotless'
 spotless {
   kotlin {
-    ktlint('0.44.0').userData([
-      'indent_size': '2',
-      'continuation_indent_size': '2',
+    ktlint().editorConfigOverride([
+      'ktlint_standard_filename': 'disabled',
     ])
   }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = JavaVersion.VERSION_1_8.toString()
     freeCompilerArgs += [
         '-progressive',
         '-Xjvm-default=all',
     ]
   }
+}
+
+tasks.withType(JavaCompile) {
+  sourceCompatibility = JavaVersion.VERSION_1_8.toString()
+  targetCompatibility = JavaVersion.VERSION_1_8.toString()
 }
 
 // Animal Sniffer only works on JDK 11 or older currently.
