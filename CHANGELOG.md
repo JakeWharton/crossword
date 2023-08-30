@@ -12,6 +12,7 @@
    * `androidNativeArm64`
    * `androidNativeX86`
    * `androidNativeX64`
+   * `linuxArm64`
    * `wasm`
    * `watchosDeviceArm64`
 
