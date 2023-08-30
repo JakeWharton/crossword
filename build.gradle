@@ -1,4 +1,7 @@
 import org.gradle.internal.jvm.Jvm
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
   dependencies {
@@ -19,18 +22,17 @@ apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: 'com.vanniktech.maven.publish'
 
 kotlin {
-  js {
-    nodejs()
-  }
-
-  jvm {
-    withJava() // Required for Animal Sniffer to work.
-  }
-
+  androidNativeArm32()
+  androidNativeArm64()
+  androidNativeX86()
+  androidNativeX64()
   iosArm32()
   iosArm64()
   iosX64()
   iosSimulatorArm64()
+  js().nodejs()
+  jvm().withJava() // Required for Animal Sniffer to work.
+  linuxArm64()
   linuxX64()
   macosX64()
   macosArm64()
@@ -38,8 +40,10 @@ kotlin {
   tvosArm64()
   tvosX64()
   tvosSimulatorArm64()
+  wasm().nodejs()
   watchosArm32()
   watchosArm64()
+  watchosDeviceArm64()
   watchosX86()
   watchosX64()
   watchosSimulatorArm64()
@@ -66,7 +70,7 @@ spotless {
   }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+tasks.withType(KotlinCompile).configureEach {
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_1_8.toString()
     freeCompilerArgs += [
@@ -76,9 +80,13 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
   }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
   sourceCompatibility = JavaVersion.VERSION_1_8.toString()
   targetCompatibility = JavaVersion.VERSION_1_8.toString()
+}
+
+plugins.withType(NodeJsRootPlugin).configureEach {
+  extensions.getByType(NodeJsRootExtension).nodeVersion = '20.0.0'
 }
 
 // Animal Sniffer only works on JDK 11 or older currently.
