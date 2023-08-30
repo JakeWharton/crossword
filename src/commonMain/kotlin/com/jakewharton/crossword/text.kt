@@ -18,10 +18,6 @@ fun CharSequence.visualIndex(index: Int): Int {
   throw IndexOutOfBoundsException()
 }
 
-@Suppress("unused") // Delete after 0.2.0 is released.
-@Deprecated("Renamed", ReplaceWith("this.visualWidth"), ERROR)
-val CharSequence.visualCodePointCount: Int get() = visualWidth
-
 val CharSequence.visualWidth: Int get() {
   var count = 0
   forEachVisualCharacter {
