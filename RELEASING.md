@@ -22,6 +22,8 @@
     $ ./gradlew clean publish
     ```
 
+    If this step fails, drop the Sonatype repo, fix, commit, and publish again.
+
 6. Tag
 
    ```
