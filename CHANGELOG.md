@@ -3,6 +3,27 @@
 ## [Unreleased]
 
 
+## [0.3.0] - 2023-08-31
+
+### Added
+
+ * New Kotlin targets:
+   * `androidNativeArm32`
+   * `androidNativeArm64`
+   * `androidNativeX86`
+   * `androidNativeX64`
+   * `wasm`
+   * `watchosDeviceArm64`
+
+### Changed
+
+ * Publish using a newer version of Kotlin to produce non-legacy artifacts.
+
+### Removed
+
+ * Deprecated `CharSequence.visualCodePointCount` extension removed. Use `CharSequence.visualWidth`.
+
+
 ## [0.2.0] - 2022-02-25
 
 ### Added
@@ -36,7 +57,8 @@
 Initial release
 
 
-[Unreleased]: https://github.com/JakeWharton/crossword/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/JakeWharton/crossword/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/JakeWharton/crossword/releases/tag/0.3.0
 [0.2.0]: https://github.com/JakeWharton/crossword/releases/tag/0.2.0
 [0.1.2]: https://github.com/JakeWharton/crossword/releases/tag/0.1.2
 [0.1.1]: https://github.com/JakeWharton/crossword/releases/tag/0.1.1

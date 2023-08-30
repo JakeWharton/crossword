@@ -52,7 +52,7 @@ repositories {
   mavenCentral()
 }
 dependencies {
-  implementation 'com.jakewharton.crossword:crossword:0.2.0'
+  implementation 'com.jakewharton.crossword:crossword:0.3.0'
 }
 ```
 
@@ -67,7 +67,7 @@ repositories {
   }
 }
 dependencies {
-  implementation 'com.jakewharton.crossword:crossword:0.3.0-SNAPSHOT'
+  implementation 'com.jakewharton.crossword:crossword:0.4.0-SNAPSHOT'
 }
 ```
 
