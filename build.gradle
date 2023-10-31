@@ -84,7 +84,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 plugins.withType(NodeJsRootPlugin).configureEach {
-  extensions.getByType(NodeJsRootExtension).nodeVersion = '20.0.0'
+  extensions.getByType(NodeJsRootExtension).nodeVersion = '21.1.0'
 }
 
 // Animal Sniffer only works on JDK 11 or older currently.
