@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
   dependencies {
-    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10'
+    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20'
     classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.22.0'
     classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.9.10'
     classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.7.1'
@@ -26,7 +26,6 @@ kotlin {
   androidNativeArm64()
   androidNativeX86()
   androidNativeX64()
-  iosArm32()
   iosArm64()
   iosX64()
   iosSimulatorArm64()
@@ -44,7 +43,6 @@ kotlin {
   watchosArm32()
   watchosArm64()
   watchosDeviceArm64()
-  watchosX86()
   watchosX64()
   watchosSimulatorArm64()
 
@@ -86,7 +84,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 plugins.withType(NodeJsRootPlugin).configureEach {
-  extensions.getByType(NodeJsRootExtension).nodeVersion = '20.0.0'
+  extensions.getByType(NodeJsRootExtension).nodeVersion = '21.1.0'
 }
 
 // Animal Sniffer only works on JDK 11 or older currently.
