@@ -83,10 +83,6 @@ tasks.withType(JavaCompile).configureEach {
   targetCompatibility = JavaVersion.VERSION_1_8.toString()
 }
 
-plugins.withType(NodeJsRootPlugin).configureEach {
-  extensions.getByType(NodeJsRootExtension).nodeVersion = '20.0.0'
-}
-
 // Animal Sniffer only works on JDK 11 or older currently.
 if (!Jvm.current().javaVersion.isJava12Compatible()) {
   apply plugin: 'ru.vyarus.animalsniffer'
