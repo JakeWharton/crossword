@@ -1,6 +1,11 @@
 # Change Log
 
 ## [Unreleased]
+[Unreleased]: https://github.com/JakeWharton/crossword/compare/0.4.0...HEAD
+
+
+## [0.4.0] - 2024-12-16
+[0.4.0]: https://github.com/JakeWharton/crossword/releases/tag/0.4.0
 
 ### Added
 
@@ -14,6 +19,7 @@
 
 
 ## [0.3.0] - 2023-08-31
+[0.3.0]: https://github.com/JakeWharton/crossword/releases/tag/0.3.0
 
 ### Added
 
@@ -36,6 +42,7 @@
 
 
 ## [0.2.0] - 2022-02-25
+[0.2.0]: https://github.com/JakeWharton/crossword/releases/tag/0.2.0
 
 ### Added
 
@@ -49,6 +56,7 @@
 
 
 ## [0.1.2] - 2020-10-10
+[0.1.2]: https://github.com/JakeWharton/crossword/releases/tag/0.1.2
 
 ### Fixed
 
@@ -56,6 +64,7 @@
 
 
 ## [0.1.1] - 2020-09-19
+[0.1.1]: https://github.com/JakeWharton/crossword/releases/tag/0.1.1
 
 ### Fixed
 
@@ -64,13 +73,6 @@
 
 
 ## [0.1.0] - 2020-09-18
+[0.1.0]: https://github.com/JakeWharton/crossword/releases/tag/0.1.0
 
 Initial release
-
-
-[Unreleased]: https://github.com/JakeWharton/crossword/compare/0.3.0...HEAD
-[0.3.0]: https://github.com/JakeWharton/crossword/releases/tag/0.3.0
-[0.2.0]: https://github.com/JakeWharton/crossword/releases/tag/0.2.0
-[0.1.2]: https://github.com/JakeWharton/crossword/releases/tag/0.1.2
-[0.1.1]: https://github.com/JakeWharton/crossword/releases/tag/0.1.1
-[0.1.0]: https://github.com/JakeWharton/crossword/releases/tag/0.1.0
