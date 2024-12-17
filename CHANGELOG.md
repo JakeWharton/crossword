@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+### Added
+
+* New Kotlin targets:
+   * `wasmJs`
+   * `wasmWasi`
+
+### Removed
+
+ * Legacy `wasm` target has been removed.
+
 
 ## [0.3.0] - 2023-08-31
 
