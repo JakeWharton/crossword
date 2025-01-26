@@ -84,15 +84,9 @@ tasks.withType(JavaCompile).configureEach {
   targetCompatibility = JavaVersion.VERSION_1_8.toString()
 }
 
-// Animal Sniffer only works on JDK 11 or older currently.
-if (!Jvm.current().javaVersion.isJava12Compatible()) {
-  apply plugin: 'ru.vyarus.animalsniffer'
+apply plugin: 'ru.vyarus.animalsniffer'
 
-  animalsniffer {
-    sourceSets = [sourceSets.main] // Only check main sources, ignore test code.
-  }
-  dependencies {
-    signature 'org.codehaus.mojo.signature:java18:1.0@signature'
-    signature 'net.sf.androidscents.signature:android-api-level-21:5.0.1_r2@signature'
-  }
+dependencies {
+  signature 'org.codehaus.mojo.signature:java18:1.0@signature'
+  signature 'net.sf.androidscents.signature:android-api-level-21:5.0.1_r2@signature'
 }
