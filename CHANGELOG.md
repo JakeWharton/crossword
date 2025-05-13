@@ -3,6 +3,10 @@
 ## [Unreleased]
 [Unreleased]: https://github.com/JakeWharton/crossword/compare/0.4.0...HEAD
 
+### Changed
+
+- In-development snapshots are now published to the Central Portal Snapshots repository at https://central.sonatype.com/repository/maven-snapshots/.
+
 
 ## [0.4.0] - 2024-12-16
 [0.4.0]: https://github.com/JakeWharton/crossword/releases/tag/0.4.0
