@@ -1,15 +1,13 @@
-import org.gradle.internal.jvm.Jvm
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
   dependencies {
-    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.21'
-    classpath 'com.diffplug.spotless:spotless-plugin-gradle:7.0.4'
-    classpath 'org.jetbrains.dokka:dokka-gradle-plugin:2.0.0'
-    classpath 'ru.vyarus:gradle-animalsniffer-plugin:2.0.1'
-    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.32.0'
+    classpath libs.kotlinPlugin
+    classpath libs.spotlessPlugin
+    classpath libs.dokkaPlugin
+    classpath libs.animalSnifferPlugin
+    classpath libs.publishPlugin
   }
 
   repositories {
@@ -70,12 +68,12 @@ spotless {
 }
 
 tasks.withType(KotlinCompile).configureEach {
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_1_8.toString()
-    freeCompilerArgs += [
+  compilerOptions {
+    jvmTarget = JvmTarget.JVM_1_8
+    freeCompilerArgs.addAll([
         '-progressive',
         '-Xjvm-default=all',
-    ]
+    ])
   }
 }
 
