@@ -4,7 +4,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TextTest {
-  @Test fun visualIndex() {
+  @Test
+  fun visualIndex() {
     assertEquals(0, "AAAAA".visualIndex(0))
     assertEquals(1, "AAAAA".visualIndex(1))
     assertEquals(2, "AAAAA".visualIndex(2))
@@ -17,7 +18,8 @@ class TextTest {
     assertEquals(1, "\u5317a".visualIndex(1))
   }
 
-  @Test fun visualIndexSurrogates() {
+  @Test
+  fun visualIndexSurrogates() {
     // High, low, ASCII
     assertEquals(2, "\uD83D\uDE03a".visualIndex(1))
 
@@ -30,7 +32,8 @@ class TextTest {
     assertEquals(3, "\uDE03\uDE03\uD83D\uD83D".visualIndex(3))
   }
 
-  @Test fun visualIndexCombiningDiacritics() {
+  @Test
+  fun visualIndexCombiningDiacritics() {
     assertEquals(3, "o\u032E\u0306".visualIndex(1))
 
     // Leading diacritic will be displayed separately. That is, at least, unless there is a letter
@@ -39,7 +42,8 @@ class TextTest {
     assertEquals(2, "\u032Eo".visualIndex(2))
   }
 
-  @Test fun visualIndexAnsiEscapes() {
+  @Test
+  fun visualIndexAnsiEscapes() {
     val singleAnsiEscape = "AAA\u001B[31;1;4mAA"
     assertEquals(0, singleAnsiEscape.visualIndex(0))
     assertEquals(1, singleAnsiEscape.visualIndex(1))
@@ -62,7 +66,8 @@ class TextTest {
     assertEquals(13, dualAnsiEscapes.visualIndex(4))
   }
 
-  @Test fun visualWidth() {
+  @Test
+  fun visualWidth() {
     assertEquals(0, "".visualWidth)
     assertEquals(1, "A".visualWidth)
     assertEquals(2, "AA".visualWidth)
@@ -74,7 +79,8 @@ class TextTest {
     assertEquals(2, "\u5317a".visualWidth)
   }
 
-  @Test fun visualWidthSurrogates() {
+  @Test
+  fun visualWidthSurrogates() {
     // High, low, ASCII
     assertEquals(2, "\uD83D\uDE03a".visualWidth)
 
@@ -84,7 +90,8 @@ class TextTest {
     assertEquals(4, "\uDE03\uDE03\uD83D\uD83D".visualWidth)
   }
 
-  @Test fun visualWidthCombiningDiacritics() {
+  @Test
+  fun visualWidthCombiningDiacritics() {
     assertEquals(1, "o\u032E\u0306".visualWidth)
 
     // Leading diacritic will be displayed separately. That is, at least, unless there is a letter
@@ -92,7 +99,8 @@ class TextTest {
     assertEquals(2, "\u032Eo".visualWidth)
   }
 
-  @Test fun visualWidthAnsiEscapes() {
+  @Test
+  fun visualWidthAnsiEscapes() {
     assertEquals(1, "\u001B[31;1;4mA\u001B[0m".visualWidth)
     assertEquals(3, "A\u001B[31;1;4mA\u001B[0mA".visualWidth)
 

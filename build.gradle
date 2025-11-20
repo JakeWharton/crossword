@@ -61,9 +61,8 @@ repositories {
 apply plugin: 'com.diffplug.spotless'
 spotless {
   kotlin {
-    ktlint().editorConfigOverride([
-      'ktlint_standard_filename': 'disabled',
-    ])
+    target('src/**/*.kt')
+    ktfmt(libs.ktfmt.get().version).googleStyle()
   }
 }
 
