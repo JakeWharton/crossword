@@ -3,17 +3,9 @@ package com.jakewharton.crossword
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
 
-private class TextSurface(
-  override val width: Int,
-  override val height: Int,
-) : TextCanvas {
-  private val rowBuilders = Array(height) {
-    StringBuilder(width).apply {
-      repeat(width) {
-        append(' ')
-      }
-    }
-  }
+private class TextSurface(override val width: Int, override val height: Int) : TextCanvas {
+  private val rowBuilders =
+    Array(height) { StringBuilder(width).apply { repeat(width) { append(' ') } } }
 
   override fun write(row: Int, column: Int, char: Char) {
     val rowBuilder = rowBuilders[row]
@@ -53,6 +45,7 @@ interface TextCanvas {
   val height: Int
 
   fun write(row: Int, column: Int, char: Char)
+
   fun write(row: Int, column: Int, string: String)
 
   fun clip(left: Int, top: Int, right: Int, bottom: Int): TextCanvas {

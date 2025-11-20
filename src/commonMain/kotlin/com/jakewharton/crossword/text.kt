@@ -1,7 +1,5 @@
 package com.jakewharton.crossword
 
-import kotlin.DeprecationLevel.ERROR
-
 private val ansiColorEscape = Regex("""\u001B\[\d+(;\d+)*m""")
 
 fun CharSequence.visualIndex(index: Int): Int {
@@ -18,13 +16,12 @@ fun CharSequence.visualIndex(index: Int): Int {
   throw IndexOutOfBoundsException()
 }
 
-val CharSequence.visualWidth: Int get() {
-  var count = 0
-  forEachVisualCharacter {
-    count++
+val CharSequence.visualWidth: Int
+  get() {
+    var count = 0
+    forEachVisualCharacter { count++ }
+    return count
   }
-  return count
-}
 
 private inline fun CharSequence.forEachVisualCharacter(block: (index: Int) -> Unit) {
   var index = 0
@@ -72,7 +69,9 @@ private inline fun CharSequence.forEachVisualCharacter(block: (index: Int) -> Un
 
 @Suppress("NOTHING_TO_INLINE")
 private inline fun Int.isLowSurrogate(): Boolean = this in 0xDC00..0xDFFF
+
 @Suppress("NOTHING_TO_INLINE")
 private inline fun Int.isHighSurrogate(): Boolean = this in 0xD800..0xDBFF
+
 @Suppress("NOTHING_TO_INLINE")
 private inline fun Int.isCombiningDiacritical(): Boolean = this in 0x0300..0x036F
