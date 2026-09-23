@@ -1,0 +1,28 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crossword>
+abstract interface com.jakewharton.crossword/TextCanvas { // com.jakewharton.crossword/TextCanvas|null[0]
+    abstract val height // com.jakewharton.crossword/TextCanvas.height|{}height[0]
+        abstract fun <get-height>(): kotlin/Int // com.jakewharton.crossword/TextCanvas.height.<get-height>|<get-height>(){}[0]
+    abstract val width // com.jakewharton.crossword/TextCanvas.width|{}width[0]
+        abstract fun <get-width>(): kotlin/Int // com.jakewharton.crossword/TextCanvas.width.<get-width>|<get-width>(){}[0]
+
+    abstract fun toString(): kotlin/String // com.jakewharton.crossword/TextCanvas.toString|toString(){}[0]
+    abstract fun write(kotlin/Int, kotlin/Int, kotlin/Char) // com.jakewharton.crossword/TextCanvas.write|write(kotlin.Int;kotlin.Int;kotlin.Char){}[0]
+    abstract fun write(kotlin/Int, kotlin/Int, kotlin/String) // com.jakewharton.crossword/TextCanvas.write|write(kotlin.Int;kotlin.Int;kotlin.String){}[0]
+    open fun clip(kotlin/Int, kotlin/Int, kotlin/Int, kotlin/Int): com.jakewharton.crossword/TextCanvas // com.jakewharton.crossword/TextCanvas.clip|clip(kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+
+    final object Companion { // com.jakewharton.crossword/TextCanvas.Companion|null[0]
+        final fun invoke(kotlin/Int, kotlin/Int): com.jakewharton.crossword/TextCanvas // com.jakewharton.crossword/TextCanvas.Companion.invoke|invoke(kotlin.Int;kotlin.Int){}[0]
+    }
+}
+
+final val com.jakewharton.crossword/visualWidth // com.jakewharton.crossword/visualWidth|@kotlin.CharSequence{}visualWidth[0]
+    final fun (kotlin/CharSequence).<get-visualWidth>(): kotlin/Int // com.jakewharton.crossword/visualWidth.<get-visualWidth>|<get-visualWidth>@kotlin.CharSequence(){}[0]
+
+final fun (kotlin/CharSequence).com.jakewharton.crossword/visualIndex(kotlin/Int): kotlin/Int // com.jakewharton.crossword/visualIndex|visualIndex@kotlin.CharSequence(kotlin.Int){}[0]

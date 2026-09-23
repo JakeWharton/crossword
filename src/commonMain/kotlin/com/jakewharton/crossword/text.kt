@@ -2,7 +2,7 @@ package com.jakewharton.crossword
 
 private val ansiColorEscape = Regex("""\u001B\[\d+(;\d+)*m""")
 
-fun CharSequence.visualIndex(index: Int): Int {
+public fun CharSequence.visualIndex(index: Int): Int {
   var remaining = index
   forEachVisualCharacter {
     if (remaining == 0) {
@@ -16,7 +16,7 @@ fun CharSequence.visualIndex(index: Int): Int {
   throw IndexOutOfBoundsException()
 }
 
-val CharSequence.visualWidth: Int
+public val CharSequence.visualWidth: Int
   get() {
     var count = 0
     forEachVisualCharacter { count++ }

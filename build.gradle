@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 
 buildscript {
   dependencies {
@@ -20,6 +20,12 @@ apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: 'com.vanniktech.maven.publish'
 
 kotlin {
+  explicitApi()
+
+  abiValidation {
+    enabled = true
+  }
+
   androidNativeArm32()
   androidNativeArm64()
   androidNativeX86()
@@ -28,21 +34,20 @@ kotlin {
   iosX64()
   iosSimulatorArm64()
   js().nodejs()
-  jvm()
+  jvm {
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
+    compilerOptions.jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
+  }
   linuxArm64()
   linuxX64()
-  macosX64()
   macosArm64()
   mingwX64()
   tvosArm64()
-  tvosX64()
   tvosSimulatorArm64()
   wasmJs().nodejs()
   wasmWasi().nodejs()
-  watchosArm32()
   watchosArm64()
   watchosDeviceArm64()
-  watchosX64()
   watchosSimulatorArm64()
 
   sourceSets {
@@ -64,21 +69,6 @@ spotless {
     target('src/**/*.kt')
     ktfmt(libs.ktfmt.get().version).googleStyle()
   }
-}
-
-tasks.withType(KotlinCompile).configureEach {
-  compilerOptions {
-    jvmTarget = JvmTarget.JVM_1_8
-    freeCompilerArgs.addAll([
-        '-progressive',
-        '-Xjvm-default=all',
-    ])
-  }
-}
-
-tasks.withType(JavaCompile).configureEach {
-  sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-  targetCompatibility = JavaVersion.VERSION_1_8.toString()
 }
 
 apply plugin: 'ru.vyarus.animalsniffer'
