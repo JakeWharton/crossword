@@ -40,24 +40,24 @@ private class TextSurface(override val width: Int, override val height: Int) : T
   }
 }
 
-interface TextCanvas {
-  val width: Int
-  val height: Int
+public interface TextCanvas {
+  public val width: Int
+  public val height: Int
 
-  fun write(row: Int, column: Int, char: Char)
+  public fun write(row: Int, column: Int, char: Char)
 
-  fun write(row: Int, column: Int, string: String)
+  public fun write(row: Int, column: Int, string: String)
 
-  fun clip(left: Int, top: Int, right: Int, bottom: Int): TextCanvas {
+  public fun clip(left: Int, top: Int, right: Int, bottom: Int): TextCanvas {
     return ClippedTextCanvas(this, left, right, top, bottom)
   }
 
   override fun toString(): String
 
-  companion object {
+  public companion object {
     @JvmStatic
     @JvmName("ofSize")
-    operator fun invoke(width: Int, height: Int): TextCanvas {
+    public operator fun invoke(width: Int, height: Int): TextCanvas {
       return TextSurface(width, height)
     }
   }

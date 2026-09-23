@@ -1,0 +1,20 @@
+public abstract interface class com/jakewharton/crossword/TextCanvas {
+	public static final field Companion Lcom/jakewharton/crossword/TextCanvas$Companion;
+	public fun clip (IIII)Lcom/jakewharton/crossword/TextCanvas;
+	public abstract fun getHeight ()I
+	public abstract fun getWidth ()I
+	public static fun ofSize (II)Lcom/jakewharton/crossword/TextCanvas;
+	public abstract fun toString ()Ljava/lang/String;
+	public abstract fun write (IIC)V
+	public abstract fun write (IILjava/lang/String;)V
+}
+
+public final class com/jakewharton/crossword/TextCanvas$Companion {
+	public final fun ofSize (II)Lcom/jakewharton/crossword/TextCanvas;
+}
+
+public final class com/jakewharton/crossword/TextKt {
+	public static final fun getVisualWidth (Ljava/lang/CharSequence;)I
+	public static final fun visualIndex (Ljava/lang/CharSequence;I)I
+}
+
